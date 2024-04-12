@@ -75,10 +75,21 @@ WSGI_APPLICATION = 'shopping.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    'default' : {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'market_db', # 연동할 mysql db 이름
+        'USER': 'root', # db 접속 계정명
+        'PASSWORD': 'snsd0805', # 해당 계정 비밀번호
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
 }
 
