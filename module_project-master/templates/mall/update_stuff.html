@@ -1,0 +1,14 @@
+<!-- update_stuff.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>상품 수정</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <!-- 저장 버튼 -->
+    <input type="submit" value="저장">
+</form>
+{% endblock %}

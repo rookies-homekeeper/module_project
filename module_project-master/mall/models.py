@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.conf import settings ####
 # Create your models here.
 
 class Stuff(models.Model):
@@ -11,23 +12,14 @@ class Stuff(models.Model):
     quantity=models.IntegerField(default=0)
     image=models.ImageField(upload_to="",blank=True,verbose_name='stuff_img')
     pub_date=models.DateTimeField()
+    liked_by = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='liked_stuffs', blank=True) ####
+    pub_date = models.DateTimeField(auto_now_add=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    image = models.ImageField(upload_to='product_images/', blank=True, null=True)
 
     def __str__(self):
         return self.name
 
-class Cart(models.Model):
-    user=models.ForeignKey(User,on_delete=models.CASCADE)
-    stuffs=models.ForeignKey(Stuff,on_delete=models.CASCADE)
-    quantity=models.IntegerField(default=0)
-    def __str__(self):
-        return self.user.username +' '+ self.stuffs.name
-    
-class Order(models.Model):
-    user=models.ForeignKey(User,on_delete=models.CASCADE)
-    stuff=models.ForeignKey(Stuff,on_delete=models.CASCADE)
-    quantity=models.IntegerField(default=0)
-    order_date=models.DateTimeField()
-    subtotal=models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.user.username + ' ' + self.stuff.name+' '+str(self.order_date)
+    def delete_stuff(self):
+        # 상품 삭제 로직 추가
+        self.delete()

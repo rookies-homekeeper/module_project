@@ -1,24 +1,57 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load my_custom_filters %} <!-- 여기에 커스텀 필터를 로드합니다 -->
+{% load my_custom_filters %}
+
 {% block link %}
 <link rel="stylesheet" type="text/css" href="{% static 'mall/detailStyle.css' %}">
 {% endblock %}
+
 {% block content %}
 {% if stuff %}
-    <div class="card mb-3">
-      {% if stuff.image %}
-        <img src="/media/{{ stuff.image }}" class="card-img-top h-25 w-25" alt="...">
-      {% else %}
-        <img src="{% static 'base.jpg' %}" class="card-img-top h-25 w-25" alt="Default Image">
-      {% endif %}
-      <div class="card-body">
-        <h5 class="card-title form-label">{{ stuff.name }}</h5>
-        <p class="card-text form-control">{{ stuff.detail }}</p>
-        <p class="card-text form-label">{{ stuff.price }}원</p>
-        <!-- 여기에 커스텀 필터를 사용합니다 -->
-        <p class="card-text"><small class="text-muted">Last updated at {{ stuff.pub_date|timesince_custom }}</small></p>
+<div class="card mb-3">
+  {% if stuff.image %}
+    <img src="{{ stuff.image.url }}" class="card-img-top" alt="{{ stuff.name }}">
+  {% else %}
+    <img src="{% static 'base.jpg' %}" class="card-img-top" alt="Default Image">
+  {% endif %}
+  <div class="card-body">
+    <h5 class="card-title">{{ stuff.name }}</h5>
+    <p class="price">{{ stuff.price }}원</p>
+    <p class="card-text">{{ stuff.detail }}</p>
+
+    <div class="d-flex justify-content-between align-items-center">
+      {% if user.is_authenticated and user == stuff.author %}
+      <div class="d-flex">
+        <a href="{% url 'mall:update_stuff' stuff_id=stuff.id %}" class="btn btn-primary mr-2">수정</a>
+        <form action="{% url 'mall:delete_stuff' stuff.id %}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">삭제</button>
+        </form>
       </div>
+      {% endif %}
+      
+      {% if user.is_authenticated %}
+      <!-- 좋아요 버튼 추가 -->
+      <form action="{% url 'mall:toggle_like' stuff.id %}" method="post" class="d-flex justify-content-end">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary like-button">
+          {% if user in stuff.liked_by.all %}
+            <img src="{% static 'heart.png' %}" alt="찜된 상품" style="width: 40px;">
+          {% else %}
+            <img src="{% static 'heartt.png' %}" alt="찜하기" style="width: 40px;">
+          {% endif %}
+        </button>
+      </form>
+      {% endif %}
     </div>
+    
+    <p class="detail-info">
+      <small class="text-muted">{{ stuff.pub_date|timesince_custom }}</small>
+    </p>
+  </div>
+</div>
+
+{% else %}
+<p>상품 정보가 없습니다.</p>
 {% endif %}
 {% endblock %}

@@ -11,3 +11,9 @@ class StuffForm(forms.ModelForm):
             'detail': forms.Textarea(attrs={'class': 'form-control', 'rows': 10}),
             'image':forms.FileInput(attrs = {"id" : "image_field",'class':'form-control'}),
         }
+
+
+class StuffUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Stuff
+        fields = ['price', 'quantity', 'detail','image']  # 수정하려는 필드만을 포함합니다.

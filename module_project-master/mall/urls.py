@@ -16,11 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from . import views
 from django.urls import path, include
+from .views import delete_stuff
+from .views import search_view
 app_name='mall'
 urlpatterns = [
-    path('',views.index,name='index'),
-    path('<int:stuff_id>/',views.detail,name='detail'),
-    path('register/',views.register,name='register'),
-    path('info/',views.info,name='info'),
+    path('', views.index, name='index'),
+    path('<int:stuff_id>/', views.detail, name='detail'),
+    path('register/', views.register, name='register'),
+    path('info/', views.info, name='info'),
     path('logout/', views.logout_view, name='logout'),
+    path('stuff/<int:stuff_id>/toggle_like/', views.toggle_like, name='toggle_like'),
+    path('my_likes/', views.my_likes, name='my_likes'),
+    path('delete/<int:stuff_id>/', delete_stuff, name='delete_stuff'),
+    path('<int:stuff_id>/update/', views.update_stuff, name='update_stuff'),
+    path('search/', views.search_results, name='search_results'),
 ]

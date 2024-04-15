@@ -1,7 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate,login,logout
 from common.forms import UserForm
-from mall.models import Cart
 from mall.models import Stuff
 # Create your views here.
 

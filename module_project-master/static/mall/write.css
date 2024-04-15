@@ -1,0 +1,35 @@
+/* signup.css */
+.container {
+    max-width: 768px; /* 컨테이너 최대 너비 설정 */
+    margin: auto;
+}
+
+.write-box {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #dedede;
+    margin-bottom: 20px;
+}
+
+.login-input {
+    width: 100%;
+    background-color: #f3f3f3;
+    border: none;
+    padding: 10px;
+    margin-bottom: 15px; /* 간격 조정 */
+}
+
+.title-box label {
+    display: block; /* 라벨을 블록 요소로 설정 */
+    margin-bottom: 5px; /* 라벨과 입력 필드 간 간격 */
+}
+
+.submit-button-box .btn {
+    width: 100%;
+    background-color: #fa6616;
+    border: none;
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+    margin-top: 15px; /* 버튼 상단 간격 */
+}

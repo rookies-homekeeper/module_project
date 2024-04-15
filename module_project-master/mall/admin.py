@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Stuff,Cart,Order
+from .models import Stuff
 
 # Register your models here.
 

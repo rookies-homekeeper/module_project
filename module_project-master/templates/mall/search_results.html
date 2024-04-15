@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load my_custom_filters %} <!-- 커스텀 필터 로드 -->
+
+{% block link %}
+<link rel="stylesheet" type="text/css" href="{% static 'mall/indexStyle.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>검색 결과</h2>
+    <p>검색어: "{{ query }}"</p>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% if search_results %}
+            {% for item in search_results %}
+                <div class="col">
+                    <div class="card h-100">
+                        {% if item.image %}
+                            <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}">
+                        {% else %}
+                            <img src="{% static 'base.jpg' %}" class="card-img-top" alt="기본 이미지">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.name }}</h5>
+                            <p class="card-text">{{ item.price }}원</p>
+                            <p class="card-text"><small class="text-muted">{{ item.pub_date|timesince_custom }}</small></p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{% url 'mall:detail' item.id %}" class="btn btn-primary">상품 보기</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col">
+                <p>검색 결과가 없습니다.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
